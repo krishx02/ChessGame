@@ -16,7 +16,7 @@ IMAGES = {}
 Initialize a global dictionary of images. Loading it once only b/c its expensive. 
 '''
 def loadImages():
-    pieces = ['wp', 'wN', 'wR', 'wK', 'wQ', 'wB','bp', 'bN', 'bR', 'bK', 'bQ', 'bB']
+    pieces = ['wp', 'wN', 'wR', 'wK', 'wQ', 'wB', 'bp', 'bN', 'bR', 'bK', 'bQ', 'bB']
     for piece in pieces:
         IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
     #can access an image by saying 'IMAGES['wp']'
@@ -36,6 +36,7 @@ def main():
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+        drawGameState(screen,gs)
         clock.tick(MAX_FPS)
         p.display.flip()
 
