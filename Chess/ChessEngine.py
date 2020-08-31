@@ -19,6 +19,13 @@ class GameState():
         self.whiteToMove  = True
         self.moveLog = []
 
+
+    def makeMove(self, move):
+        self.board[move.startRow][move.startCol] = "--"
+        self.board[move.endRow][move.endCol] = move.pieceMoved
+        self.moveLog.append(move) #log moves, undo later
+        self.whiteToMove = not self.whiteToMove #swap
+
 class Move():
     # maps key to values
     # key : value
@@ -38,6 +45,8 @@ class Move():
 
     #This allows us to see what moves are happening. This is how to transcribe games.
     def getChessNotation(self):
-
+        return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
+    def getRankFile(self, r, c):
+        return self.colsToFiles[c] + self.rowsToRanks[r]
 
 
