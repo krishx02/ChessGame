@@ -33,7 +33,6 @@ def main():
     validMoves = gs.getValidMoves()
     moveMade = False
 
-
     loadImages() #only once, before while loop
     running = True
     sqSelected = () #no square initially. Keep track of last square the user had selected.
@@ -59,10 +58,9 @@ def main():
                     if move in validMoves:
                         gs.makeMove(move)
                         moveMade = True
-                    gs.makeMove(move)
                     sqSelected = () #reset
                     playerClicks = []
-            # key handler. calls undo move
+            #key handler
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z:
                     gs.undoMove()
