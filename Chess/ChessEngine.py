@@ -17,7 +17,7 @@ class GameState():
             ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]]
         self.moveFunctions = {'p' : self.getPawnMoves, 'R': self.getRookMoves, 'N': self.getKnightMoves,
-                             'B': self.getBishopMoves, 'Q': self.getQueensMoves, 'K': self.getKingMoves}
+                             'B': self.getBishopMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
 
         self.whiteToMove  = True
         self.moveLog = []
@@ -68,8 +68,17 @@ class GameState():
             if c+1 <= 7:
                 if self.board[r-1][c+1][0] == 'b':
                     moves.append(Move((r, c), (r - 1, c + 1), self.board))
-        else:
-            pass
+        else: #black pawns
+            if self.board[r + 1][c] == "--":
+                moves.append(Move((r, c), (r + 1, c), self.board))
+                if r == 1 and self.board[r + 2][c] == "--":
+                    moves.append(Move((r, c), (r + 2, c), self.board))
+            if c-1 >= 0:
+                if self.board[r + 1][c - 1][0] == 'w':
+                    moves.append(Move((r, c), (r + 1, c - 1), self.board))
+            if c + 1 >= 7:
+                if self.board[r + 1][c - 1][0] == 'w':
+                    moves.append(Move((r, c), (r + 1, c + 1), self.board))
 
     def getRookMoves(self, r, c, moves):
         pass
