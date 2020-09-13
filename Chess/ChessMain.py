@@ -4,7 +4,7 @@ This is the driver file. Responsible for handling user input and displaying curr
 
 import pygame as p
 from Chess import ChessEngine
-
+#This is the creation of the board itself. Fps, dimension of the board and fps
 WIDTH = HEIGHT = 512 #resolution
 DIMENSION = 8 #chess board is 8x8
 SQ_SIZE = HEIGHT // DIMENSION
@@ -32,7 +32,7 @@ def main():
     gs = ChessEngine.GameState()
     validMoves = gs.getValidMoves()
     moveMade = False
-
+    #Lodes in all of the images.
     loadImages() #only once, before while loop
     running = True
     sqSelected = () #no square initially. Keep track of last square the user had selected.
@@ -83,7 +83,7 @@ def drawGameState(screen, gs):
     drawBoard(screen) #draw squares on the voard
     #can add highlighting later
     drawPieces(screen, gs.board) #draw pieces on top of squares
-
+#Function name says it all. You can change the color if you want, but if you have a black background it won't look good, hence grey.
 def drawBoard(screen):
     colors = [p.Color("white"), p.Color("grey")]
     for r in range(DIMENSION):
@@ -93,6 +93,7 @@ def drawBoard(screen):
 '''
 Draw the pieces on the board using the current GameState.board
 '''
+#puts all of the pieces in their original place from the ChessEngine class.
 def drawPieces(screen, board):
     for r in range(DIMENSION):
         for c in range(DIMENSION):

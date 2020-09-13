@@ -25,7 +25,8 @@ class GameState():
         self.whiteKingLocation = (7,4)
         self.blackKingLocation = (0,4)
         self.checkMate = False
-        self.staleMate = False
+        self.staleMate = False #Game stops if any of these two are true, the checkmate and stalemate. Happens when
+        #there are no valid moves left.
 
     ''' 
     Takes a move as a parameter. Does not work for castling, pawn promotion and en passant. 
@@ -56,7 +57,7 @@ class GameState():
                 self.whiteKingLocation = (move.startRow, move.startCol)
             elif move.pieceMoved == 'bK':
                 self.blackKingLocation = (move.startRow, move.startCol)
-
+    #This actually gets the valid moves, see if there is a check or not, otherwise lists aall of the other ones
     def getValidMoves(self):
         moves = self.getAllPossibleMoves()
         for i in range(len(moves)-1, -1, -1): #when removing from a list, go backwards.
@@ -66,7 +67,7 @@ class GameState():
                 moves.remove(moves[i])
             self.whiteToMove = not self.whiteToMove
             self.undoMove()
-
+        #determines checkmate/stalemate
         if len(moves) == 0:
             if self.inCheck():
                 self.checkMate = True
@@ -113,7 +114,7 @@ class GameState():
     All pawn moves. Add them to the list
     '''
     def getPawnMoves(self, r, c, moves):
-        if self.whiteToMove:
+        if self.whiteToMove: #white pawns
             if self.board[r-1][c] == "--":
                 moves.append(Move((r,c), (r - 1, c), self.board))
                 if r == 6 and self.board[r-2][c] == "--":
@@ -137,7 +138,7 @@ class GameState():
                     moves.append(Move((r, c), (r + 1, c + 1), self.board))
 
     def getRookMoves(self, r, c, moves):
-        directions = ((-1, 0), (0, -1), (1 , 0), (0 , 1))
+        directions = ((-1, 0), (0, -1), (1 , 0), (0 , 1)) #lists the possible moves for rooks, they can only move in 4 directions
         enemyColor = "b" if self.whiteToMove else "w"
         for d in directions:
             for i in range(1 , 8):
@@ -157,7 +158,7 @@ class GameState():
 
 
     def getKnightMoves(self, r, c, moves):
-        knightMoves = ((-2, -1), (-2, 1,), (-1, -2), (1, -2), (1, 2), (2, -1), (2, 1))
+        knightMoves = ((-2, -1), (-2, 1,), (-1, -2), (1, -2), (1, 2), (2, -1), (2, 1)) #preset squares that the knight can possibly move
         allyColor = "w" if self.whiteToMove else "b"
         for m in knightMoves:
             endRow = r + m[0]
@@ -188,6 +189,7 @@ class GameState():
                     break
 
     def getQueenMoves(self, r, c, moves):
+        #Queen moves are just rook and bishop moves combined
         self.getRookMoves(r, c, moves)
         self.getBishopMoves(r, c, moves)
 
